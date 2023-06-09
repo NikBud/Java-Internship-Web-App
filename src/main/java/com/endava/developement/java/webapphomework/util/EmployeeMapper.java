@@ -2,10 +2,9 @@ package com.endava.developement.java.webapphomework.util;
 
 import com.endava.developement.java.webapphomework.DTO.EmployeeRequest;
 import com.endava.developement.java.webapphomework.DTO.EmployeeResponse;
-import com.endava.developement.java.webapphomework.exceptions.DepartmentNotFoundException;
 import com.endava.developement.java.webapphomework.models.Department;
 import com.endava.developement.java.webapphomework.models.Employee;
-import com.endava.developement.java.webapphomework.repositories.DepartmentRepository;
+import com.endava.developement.java.webapphomework.repositories.DepartmentDAO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,10 +13,10 @@ import org.springframework.stereotype.Component;
 public class EmployeeMapper {
 
     private final ModelMapper modelMapper;
-    private final DepartmentRepository departmentRepository;
+    private final DepartmentDAO departmentRepository;
 
     @Autowired
-    public EmployeeMapper(ModelMapper modelMapper, DepartmentRepository departmentRepository) {
+    public EmployeeMapper(ModelMapper modelMapper, DepartmentDAO departmentRepository) {
         this.modelMapper = modelMapper;
         this.departmentRepository = departmentRepository;
         modelMapperSetupEntityToDTOResponse();
@@ -28,8 +27,7 @@ public class EmployeeMapper {
     }
 
     public Employee convertDTORequestToEntity(EmployeeRequest employeeRequest){
-        Department department = departmentRepository.findByName(employeeRequest.getDepartmentName().trim().replaceAll("\\s", " "))
-                .orElseThrow(DepartmentNotFoundException::new);
+        Department department = departmentRepository.findByName(employeeRequest.getDepartmentName().trim().replaceAll("\\s", " "));
 
         Employee employee = new Employee();
         employee.setFirstName(employeeRequest.getFirstName());
@@ -44,8 +42,7 @@ public class EmployeeMapper {
 
     public void mapRequestDTOAndEntity(Employee employeeToChange, EmployeeRequest changedEmployee){
         Department changedDepartment = departmentRepository
-                .findByName(changedEmployee.getDepartmentName().trim().replaceAll("\\s", " "))
-                    .orElseThrow(DepartmentNotFoundException::new);
+                .findByName(changedEmployee.getDepartmentName().trim().replaceAll("\\s", " "));
 
         employeeToChange.setFirstName(changedEmployee.getFirstName());
         employeeToChange.setLastName(changedEmployee.getLastName());

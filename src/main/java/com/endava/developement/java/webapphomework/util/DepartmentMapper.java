@@ -3,7 +3,7 @@ package com.endava.developement.java.webapphomework.util;
 import com.endava.developement.java.webapphomework.DTO.DepartmentRequest;
 import com.endava.developement.java.webapphomework.DTO.DepartmentResponse;
 import com.endava.developement.java.webapphomework.models.Department;
-import com.endava.developement.java.webapphomework.repositories.EmployeeRepository;
+import com.endava.developement.java.webapphomework.repositories.EmployeeDAO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,20 +12,19 @@ import org.springframework.stereotype.Component;
 public class DepartmentMapper {
 
     private final ModelMapper modelMapper;
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeDAO employeeDAO;
 
     @Autowired
-    public DepartmentMapper(ModelMapper modelMapper, EmployeeRepository employeeRepository) {
+    public DepartmentMapper(ModelMapper modelMapper, EmployeeDAO employeeDAO) {
         this.modelMapper = modelMapper;
-        this.employeeRepository = employeeRepository;
+        this.employeeDAO = employeeDAO;
     }
 
     public DepartmentResponse mapToDepartmentResponse(Department department) {
         DepartmentResponse response = modelMapper.map(department, DepartmentResponse.class);
 
         response.setCountOfEmployees
-                (employeeRepository.findByDepartment
-                        (department.getName()).size());
+                (employeeDAO.findByDepartment(department.getId()).size());
 
         return response;
     }

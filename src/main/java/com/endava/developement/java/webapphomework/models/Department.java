@@ -1,26 +1,19 @@
 package com.endava.developement.java.webapphomework.models;
 
-import jakarta.persistence.*;
-
 import java.util.List;
 
-@Entity
-@Table(name = "departments")
 public class Department {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+
     private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "location")
     private String location;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Employee> employees;
+
+
 
     public Long getId() {
         return id;
