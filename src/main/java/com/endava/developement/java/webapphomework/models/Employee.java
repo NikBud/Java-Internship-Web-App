@@ -1,6 +1,7 @@
 package com.endava.developement.java.webapphomework.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "employees")
@@ -12,22 +13,39 @@ public class Employee {
     private Long id;
 
     @Column(name = "first_name")
+    @NotNull
+    @NotBlank
+    @NotEmpty
+    @Size(min = 3, max = 50)
     private String firstName;
 
     @Column(name = "last_name")
+    @NotNull
+    @NotBlank
+    @NotEmpty
+    @Size(min = 3, max = 50)
     private String lastName;
 
     @Column(name = "email")
+    @Email
+    @NotNull
+    @Size(min = 3, max = 20)
     private String email;
 
     @Column(name = "phone_number")
+    @NotNull
+    @NotBlank
+    @NotEmpty
+    @Size(min = 9, max = 15)
     private String phoneNumber;
 
     @Column(name = "salary")
+    @NotNull
     private Float salary;
 
     @ManyToOne
     @JoinColumn(name = "department_id")
+    @NotNull
     private Department department;
 
 

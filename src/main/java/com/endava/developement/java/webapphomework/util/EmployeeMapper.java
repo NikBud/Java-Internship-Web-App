@@ -9,6 +9,7 @@ import com.endava.developement.java.webapphomework.repositories.DepartmentReposi
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class EmployeeMapper {
@@ -27,6 +28,7 @@ public class EmployeeMapper {
         return modelMapper.map(employee, EmployeeResponse.class);
     }
 
+    @Transactional(readOnly = true)
     public Employee convertDTORequestToEntity(EmployeeRequest employeeRequest){
         Department department = departmentRepository.findByName(employeeRequest.getDepartmentName().trim().replaceAll("\\s", " "))
                 .orElseThrow(DepartmentNotFoundException::new);
@@ -42,6 +44,7 @@ public class EmployeeMapper {
         return employee;
     }
 
+    @Transactional(readOnly = true)
     public void mapRequestDTOAndEntity(Employee employeeToChange, EmployeeRequest changedEmployee){
         Department changedDepartment = departmentRepository
                 .findByName(changedEmployee.getDepartmentName().trim().replaceAll("\\s", " "))
