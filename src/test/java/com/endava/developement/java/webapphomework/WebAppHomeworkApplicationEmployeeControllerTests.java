@@ -231,7 +231,7 @@ class WebAppHomeworkApplicationEmployeeControllerTests {
 		// Act
 
 		// Perform Get Query
-		ResponseEntity<EmployeeResponse> firstGetQuery = testRestTemplate.exchange("/employees/36",
+		ResponseEntity<EmployeeResponse> firstGetQuery = testRestTemplate.exchange("/employees/2",
 				HttpMethod.GET,
 				getRequest,
 				new ParameterizedTypeReference<>() {
@@ -241,7 +241,7 @@ class WebAppHomeworkApplicationEmployeeControllerTests {
 
 		// Perform PUT query
 		ResponseEntity<EmployeeResponse> response = testRestTemplate.exchange(
-				"/employees/36",
+				"/employees/2",
 				HttpMethod.PUT,
 				request,
 				EmployeeResponse.class);
@@ -249,7 +249,7 @@ class WebAppHomeworkApplicationEmployeeControllerTests {
 
 
 		// Perform Get Query
-		ResponseEntity<EmployeeResponse> performGetQuery = testRestTemplate.exchange("/employees/36",
+		ResponseEntity<EmployeeResponse> performGetQuery = testRestTemplate.exchange("/employees/2",
 				HttpMethod.GET,
 				getRequest,
 				new ParameterizedTypeReference<>() {
@@ -263,7 +263,7 @@ class WebAppHomeworkApplicationEmployeeControllerTests {
 
 
 		ResponseEntity<EmployeeResponse> finalPutResponse = testRestTemplate.exchange(
-				"/employees/36",
+				"/employees/2",
 				HttpMethod.PUT,
 				finalPutRequest,
 				EmployeeResponse.class);
