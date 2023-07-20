@@ -8,6 +8,7 @@ import com.endava.developement.java.webapphomework.models.Employee;
 import com.endava.developement.java.webapphomework.repositories.DepartmentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +17,13 @@ public class EmployeeMapper {
 
     private final ModelMapper modelMapper;
     private final DepartmentRepository departmentRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public EmployeeMapper(ModelMapper modelMapper, DepartmentRepository departmentRepository) {
+    public EmployeeMapper(ModelMapper modelMapper, DepartmentRepository departmentRepository, PasswordEncoder passwordEncoder) {
         this.modelMapper = modelMapper;
         this.departmentRepository = departmentRepository;
+        this.passwordEncoder = passwordEncoder;
         modelMapperSetupEntityToDTOResponse();
     }
 
@@ -40,6 +43,7 @@ public class EmployeeMapper {
         employee.setSalary(employeeRequest.getSalary());
         employee.setPhoneNumber(employeeRequest.getPhoneNumber());
         employee.setDepartment(department);
+        employee.setPassword(employeeRequest.getPassword());
 
         return employee;
     }
@@ -50,12 +54,14 @@ public class EmployeeMapper {
                 .findByName(changedEmployee.getDepartmentName().trim().replaceAll("\\s", " "))
                     .orElseThrow(DepartmentNotFoundException::new);
 
+
         employeeToChange.setFirstName(changedEmployee.getFirstName());
         employeeToChange.setLastName(changedEmployee.getLastName());
         employeeToChange.setEmail(changedEmployee.getEmail());
         employeeToChange.setSalary(changedEmployee.getSalary());
         employeeToChange.setPhoneNumber(changedEmployee.getPhoneNumber());
         employeeToChange.setDepartment(changedDepartment);
+        employeeToChange.setPassword(passwordEncoder.encode(changedEmployee.getPassword()));
     }
 
 

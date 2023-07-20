@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign up!</title>
+</head>
+
+<style>
+  /* CSS to center-align the form */
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+  }
+
+  form {
+    width: 400px;
+    padding: 40px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="password"]{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .error-message {
+    color: red;
+    margin-bottom: 10px;
+  }
+</style>
+<body>
+
+
+<div>
+  <form th:method="POST" th:action="@{/authentication/register}" th:object="${employeeRequest}">
+    <h1>Sign up</h1>
+
+
+    <label for="firstName">First name: </label>
+    <input type="text" th:field="*{firstName}" id="firstName"/>
+    <div class="error-message" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</div>
+    <br/>
+
+
+    <label for="lastName">Last name: </label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+    <div class="error-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name error</div>
+    <br/>
+
+
+    <label for="email">Email: </label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+    <br/>
+
+
+    <label for="phoneNumber">Phone number: </label>
+    <input type="text" th:field="*{phoneNumber}" id="phoneNumber"/>
+    <div class="error-message" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Phone number error</div>
+    <br/>
+
+
+    <label for="salary">Salary: </label>
+    <input type="number" th:field="*{salary}" id="salary"/>
+    <div class="error-message" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}">Salary error</div>
+    <br/>
+
+
+    <label for="departmentName">Department name: </label>
+    <input type="text" th:field="*{departmentName}" id="departmentName"/>
+    <div class="error-message" th:if="${#fields.hasErrors('departmentName')}" th:errors="*{departmentName}">Department name error</div>
+    <br/>
+
+    <label for="password">Password: </label>
+    <input type="password" th:field="*{password}" id="password"/>
+    <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+    <br/>
+
+    <label for="repeatPassword">Repeat your password: </label>
+    <input type="password" th:field="*{repeatPassword}" id="repeatPassword"/>
+    <div class="error-message" th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}">Repeated password name error</div>
+    <br/>
+
+    <input type="submit" value="Sign up!"/>
+  </form>
+</div>
+
+
+</body>
+</html>

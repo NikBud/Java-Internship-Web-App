@@ -7,11 +7,12 @@ import com.endava.developement.java.webapphomework.models.Employee;
 import com.endava.developement.java.webapphomework.repositories.EmployeeRepository;
 import com.endava.developement.java.webapphomework.util.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,29 +20,40 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
+    public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public List<EmployeeResponse> getAll(){
-        return employeeRepository.findAll()
-                .stream()
-                .map(employeeMapper::convertEntityToDTOResponse)
-                .collect(Collectors.toList());
+    public List<Employee> getAll(){
+        return employeeRepository.findAll();
     }
 
-    public EmployeeResponse getOne(Long id){
-        Employee foundEmployee = employeeRepository.findById(id).orElseThrow(EmployeeNotFoundException::new);
+    public Optional<Employee> getOne(Long id){
+        return employeeRepository.findById(id);
+    }
 
-        return employeeMapper.convertEntityToDTOResponse(foundEmployee);
+    public Optional<Employee> getByEmail(String email){
+        return employeeRepository.findByEmail(email);
+    }
+
+    public Optional<Employee> getByPhoneNumber(String phoneNumber) {
+        return employeeRepository.findByPhoneNumber(phoneNumber);
     }
 
     @Transactional
     public EmployeeResponse saveEmployee(EmployeeRequest employeeRequest){
+        employeeRequest
+                .setPassword
+                        (passwordEncoder.encode
+                                (employeeRequest.getPassword()));
+
+
         Employee employee = employeeMapper.convertDTORequestToEntity(employeeRequest);
 
         return employeeMapper.convertEntityToDTOResponse(employeeRepository.save(employee));
@@ -52,9 +64,12 @@ public class EmployeeService {
         Employee existingEmployee = employeeRepository.findById(id)
                 .orElseThrow(EmployeeNotFoundException::new);
 
+
         employeeMapper.mapRequestDTOAndEntity(existingEmployee, employeeRequest);
 
         return employeeMapper.convertEntityToDTOResponse
                 (employeeRepository.save(existingEmployee));
     }
+
+
 }

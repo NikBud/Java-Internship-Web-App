@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sing in!</title>
+    <style>
+        /* CSS to center-align the form */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            width: 400px;
+            padding: 40px;
+            border-radius: 4px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            margin-left: 5%;
+        }
+
+        .register_word{
+            display: block;
+        }
+
+        .register-link a {
+            color: cornflowerblue;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <form name="f" method="post" action="/process_login">
+        <input type="hidden" th:name="${_csrf.getParameterName()}" th:value="${_csrf.token}"/>
+
+        <h1>Login</h1>
+
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username"/>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password"/>
+
+        <input type="submit" value="Login" style="border: 1px solid; border-radius: 50px; margin-left: 2%"/>
+
+        <div th:if="${param.error}" class="error-message">
+            Incorrect username or password !
+        </div>
+
+        <div align="center" style="margin-right: 4%">
+            <h4>
+                <a th:href="@{/oauth2/authorization/google}" style="display: inline-block; width: 100%; padding: 10px; background-color: #fff; color: #000; text-decoration: none; border: 1px solid #ccc; border-radius: 50px; font-weight: bold; position: relative; overflow: hidden;">
+                    <span style="display: flex; align-items: center;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" style="width: 24px; height: 24px; margin-right: 29%;">
+                        <span style="align-self: center">Login with Google</span>
+                    </span>
+                </a>
+            </h4>
+        </div>
+
+        <a th:href="@{/oauth2/authorization/facebook}">Login with Facebook</a>
+
+
+        <div class="register-link">
+            Don't have an account? <a class="register_word" href="/authentication/register">Register</a>
+        </div>
+
+
+        <div style="text-align: center;">
+            <a th:href="@{/authentication/logout}" style="display: inline-block; border: 1px solid #ccc; border-radius: 50px; margin-top: 15px; margin-left: 4%; padding: 10px 20px; background-color: #ffffff; color: #000000; text-decoration: none; font-weight: bold; transition: background-color 0.3s;">
+                Logout
+            </a>
+        </div>
+
+
+    </form>
+</div>
+
+
+</body>
+</html>

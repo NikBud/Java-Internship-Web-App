@@ -6,6 +6,7 @@ CREATE TABLE employees(
     phone_number varchar(50) NOT NULL UNIQUE,
     salary FLOAT NOT NULL,
     department_id BIGINT NOT NULL,
+    password varchar(255) NOT NULL,
     FOREIGN KEY (department_id) REFERENCES departments (id)
 );
 

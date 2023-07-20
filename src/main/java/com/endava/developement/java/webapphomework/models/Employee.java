@@ -48,6 +48,10 @@ public class Employee {
     @NotNull
     private Department department;
 
+    @Size(min = 8)
+    @NotBlank
+    private String password;
+
 
     public Long getId() {
         return id;
@@ -103,5 +107,13 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -1,6 +1,5 @@
 package com.endava.developement.java.webapphomework.services.security;
 
-import com.endava.developement.java.webapphomework.exceptions.EmployeeNotFoundException;
 import com.endava.developement.java.webapphomework.models.Employee;
 import com.endava.developement.java.webapphomework.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +21,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Employee employee = employeeRepository.findByEmail(username).orElseThrow(EmployeeNotFoundException::new);
+        Employee employee = employeeRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("No such employee in the system !"));
 
-        UserDetails userDetails = User.builder()
+        return User.builder()
                 .username(employee.getEmail())
-                .password(employee.getPhoneNumber())
+                .password(employee.getPassword())
                 .roles("USER")
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
                 .build();
-
-        return userDetails;
     }
 }
