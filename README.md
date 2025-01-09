@@ -20,3 +20,4 @@ This repository contains a Spring Boot project that implements CRUD operations f
 - **OAuth2**: Used for Google SSO integration.
 - **PostgreSQL**: For database storage (configurable in application.properties).
 - **Thymeleaf**: Frontend template engine for authentication.
+ 
